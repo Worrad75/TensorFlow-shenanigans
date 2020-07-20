@@ -8,3 +8,13 @@ data = keras.datasets.imdb
 
 word_index = data.get_word_index()
 
+word_index = { k:(v+3) for k, v in word_index.items() } # the +3 is important because we will be adding special characters to the front of the list
+word_index["<PAD>"] = 0
+word_index["<START>"] = 1
+word_index["<UNK>"] = 2
+word_index["<UNUSED>"] = 3
+
+reverse_word_index = dict([(value, word) for (word, value) in word_index.items()]) # the dataset is all integers representing the location of words within a review, so we need to have a readable dictionary to mirror that
+
+train_data = keras.preprocessing.pad_sequence(train_data, value=word_index["<PAD>"], padding="post", maxlen=250)
+test_data = keras.preprocessing.pad_sequence(test_data, value=word_index["<PAD>"], padding="post", maxlen=250)
