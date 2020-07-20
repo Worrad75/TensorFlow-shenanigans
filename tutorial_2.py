@@ -22,4 +22,11 @@ test_data = keras.preprocessing.sequence.pad_sequences(test_data, value=word_ind
 def decode_review(text):
     return " ".join( [reverse_word_index.get(i, "?") for i in text] )
 
-print(decode_review(test_data[0]))
+
+# MODEL
+
+model = keras.Sequential()
+model.add(keras.layers.Embedding(1000,16))
+model.add(keras.layers.GlobalAveragePooling1D())
+model.add(keras.layers.Dense(16, activation="relu"))
+model.add(keras.layers.Dense(1, activation="sigmoida"))
